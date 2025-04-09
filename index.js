@@ -1,17 +1,32 @@
 const express = require("express");
-const path = require("path");
-const { title } = require("process");
 const app = express();
-// middleware
-app.use(express.static(path.join(__dirname, "public")));
-app.set("views", path.join(__dirname, "views"));
-// setting template engine
-app.set("view engine", "ejs");
+const multer = require("multer");
+const upload = multer();
 
-app.get("/", (req, res) => {
-  res.render("login", {
-    title: "rishabh",
-  });
+// middleware to parse json data
+app.use(express.json());
+// middleware to parse url encoded data
+app.use(express.urlencoded({ extended: true }));
+
+// capturing data from url parameters
+app.get("/:name", (req, res) => {
+  const uid = req.params.name;
+  console.log(uid);
+  res.send("user id is " + uid);
+});
+
+// capturing data from query parameters
+app.post("/search", (req, res) => {
+  const search = req.query;
+  console.log(search);
+  res.send(search);
+});
+
+// capturing data from body
+app.post("/user", upload.none(), (req, res) => {
+  const { name, email, password } = req.body;
+  console.log(name, email, password);
+  res.send("user created");
 });
 
 app.listen(5000, () => {
