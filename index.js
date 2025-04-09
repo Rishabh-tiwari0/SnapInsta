@@ -3,6 +3,8 @@ const path = require("path");
 const app = express();
 // middleware
 app.use(express.static(path.join(__dirname, "public")));
+// setting template engine
+app.set("set engine", "hbs");
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "Login.html"));
