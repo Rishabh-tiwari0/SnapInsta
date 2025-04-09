@@ -1,13 +1,17 @@
 const express = require("express");
 const path = require("path");
+const { title } = require("process");
 const app = express();
 // middleware
 app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views"));
 // setting template engine
-app.set("set engine", "hbs");
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "Login.html"));
+  res.render("login", {
+    title: "rishabh",
+  });
 });
 
 app.listen(5000, () => {
