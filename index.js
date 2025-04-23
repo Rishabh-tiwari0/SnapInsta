@@ -1,10 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const multer = require("multer");
 const { connectDB } = require("./database/connectDB.js");
-require("dotenv").config();
-const Post = require("./models/postModel.js");
 const postRouter = require("./Routes/postRouter.js");
+const userRouter = require("./Routes/userRouter.js");
 
 const upload = multer();
 
@@ -16,7 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 // creating posts on  database
-app.use("/api");
+app.use("/api/posts", postRouter);
+// routes for user
+app.use("/api/user", userRouter);
 
 app.listen(5000, () => {
   console.log("server is running on port 5000");
